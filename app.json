@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "mobilecard",
+    "slug": "mobilecard",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "mobilecard"
+}
