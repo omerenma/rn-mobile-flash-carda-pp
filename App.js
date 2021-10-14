@@ -79,8 +79,8 @@ export default function App() {
 					/>
 
 					<Stack.Screen
-						name="Result"
-						component={Quiz}
+						name="Results"
+						component={Results}
 						options={{ headerShown: false }}
 					/>
 				</Stack.Navigator>

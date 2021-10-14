@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 
 function TakeQuiz(props) {
 	const { data } = props;
-	const navigation = props.route;
+	const navigation = useNavigation();
 
 	const scaleUp = useRef(new Animated.Value(1)).current;
 	const params = localStorage.id;
@@ -29,7 +29,7 @@ function TakeQuiz(props) {
 	const [finishedQuize, setFinishedQuize] = useState("false");
 
 	useEffect(() => {
-		if (finishedQuize === true) {
+		if (finishedQuize === 'true') {
 			finish();
 		}
 	}, [finishedQuize]);
@@ -39,7 +39,7 @@ function TakeQuiz(props) {
 		serRightAnswer(0);
 		setWrongAnswer(0);
 		setPosition(0);
-		setAnswer(0);
+		setAnswer('false');
 
 		navigation.navigate("Results", {
 			id: params,
@@ -96,7 +96,7 @@ function TakeQuiz(props) {
 					<Animated.Text
 						style={{
 							fontFamily: "Play_400Regular",
-							color: "#457B9D",
+							color: "white",
 							transform: [{ scale: scaleUp }],
 						}}
 					>
@@ -122,7 +122,7 @@ function TakeQuiz(props) {
 						>
 							<Text
 								style={{
-									color: "#FF7A00",
+									color: "white",
 									fontSize: 20,
 									fontWeight: "bold",
 								}}
@@ -134,7 +134,7 @@ function TakeQuiz(props) {
 						<View style={{ marginTop: 170 }}>
 							<Text
 								style={{
-									color: "#4895ef",
+									color: "white",
 									fontSize: 20,
 									fontWeight: "bold",
 								}}
@@ -144,7 +144,7 @@ function TakeQuiz(props) {
 						</View>
 					)}
 
-					<Text style={styles.myGuessTxt}>My guess was:</Text>
+					<Text style={styles.myGuessTxt}>Answer:</Text>
 
 					<View style={{ display: "flex", flexDirection: "row" }}>
 						<TouchableOpacity
@@ -152,11 +152,11 @@ function TakeQuiz(props) {
 								nextQuestion();
 								setWrongAnswer(wrogAnswer + 1);
 							}}
-							style={[styles.btn, { backgroundColor: "#FFAEB4" }]}
+							style={[styles.btn, { backgroundColor: "white" }]}
 						>
 							<Text
 								style={{
-									color: "#E63946",
+									color: "red",
 									fontWeight: "bold",
 									fontSize: 20,
 								}}
@@ -169,11 +169,11 @@ function TakeQuiz(props) {
 								nextQuestion();
 								serRightAnswer(rightAnswer + 1);
 							}}
-							style={[styles.btn, { backgroundColor: "#91DFD6" }]}
+							style={[styles.btn, { backgroundColor: "white" }]}
 						>
 							<Text
 								style={{
-									color: "#2A9D8F",
+									color: "green",
 									fontWeight: "bold",
 									fontSize: 20,
 								}}
@@ -196,8 +196,8 @@ const styles = StyleSheet.create({
 	},
 	card: {
 		height: 400,
-		backgroundColor: "white",
-		borderRadius: 20,
+		backgroundColor: "rgb(4, 133, 183)",
+		borderRadius: 5,
 		marginTop: 10,
 		/* box shadow */
 		shadowColor: "#adb5bd",

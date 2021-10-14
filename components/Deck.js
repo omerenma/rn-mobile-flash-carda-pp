@@ -88,7 +88,24 @@ function Deck(props) {
 				</View>
 				{idDeck.cards.map((card, i) => {
 					return (
-						<View key={i}>
+						<View
+							key={i}
+							style={{
+								flexDirection: "row",
+								justifyContent: "space-around",
+								alignItems:'center',
+								backgroundColor: "white",
+								shadowColor: "rgba(0,0,0,0.24)",
+								shadowOpacity: 0.8,
+								shadowOffset: {
+									width: 0,
+									height: 3,
+								},
+								height:100,
+								
+								
+							}}
+						>
 							<Text>{card.question.substring(0, 35) + "..."}</Text>
 							<TouchableOpacity
 								onPress={() => {
@@ -106,7 +123,7 @@ function Deck(props) {
 									]);
 								}}
 							>
-								<Ionicons name="trash-bin" />
+								<Ionicons name="trash-bin" size={35} />
 							</TouchableOpacity>
 						</View>
 					);
@@ -136,7 +153,8 @@ const styles = StyleSheet.create({
 		// gap: 20,
 	},
 	addCard: {
-		justifyContent: "center",
+		justifyContent: "space-around",
+		flexDirection: "row",
 		alignItems: "center",
 		marginTop: 100,
 		backgroundColor: "white",
@@ -147,8 +165,8 @@ const styles = StyleSheet.create({
 			width: 0,
 			height: 3,
 		},
-    height:100,
-	cursor:'pointer'
+		height: 100,
+		cursor: "pointer",
 	},
 });
 const mapStateToProps = (state) => {
