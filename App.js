@@ -16,6 +16,7 @@ import CreateDecks from "./components/CreateDecks";
 import Deck from "./components/Deck";
 import AddCard from "./components/AddCardsToDeck";
 import Quiz from "./components/Quize";
+import Results from "./components/Result";
 
 const middleware = applyMiddleware(thunk, logger);
 
@@ -71,8 +72,14 @@ export default function App() {
 						component={AddCard}
 						options={{ headerShown: false }}
 					/>
-          	<Stack.Screen
+					<Stack.Screen
 						name="Quiz"
+						component={Quiz}
+						options={{ headerShown: false }}
+					/>
+
+					<Stack.Screen
+						name="Result"
 						component={Quiz}
 						options={{ headerShown: false }}
 					/>

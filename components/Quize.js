@@ -13,15 +13,18 @@ import { connect } from "react-redux";
 function TakeQuiz(props) {
     const { data} = props
     const navigation = props.navigation
+    const scaleUp = useRef(new Animated.Value(1)).current
     const params = localStorage.id
     const cardData = data[params].cards
 
+    console.log(cardData, 'card')
+
     // State management
     const [ position, setPosition] = useState(0)
-    const [displayAnswer, setAnswer] = useState(false)
+    const [displayAnswer, setAnswer] = useState('false')
     const [rightAnswer, serRightAnswer] = useState(0)
     const [wrogAnswer, setWrongAnswer] = useState(0)
-    const [finishedQuize, setFinishedQuize] =useState(false)
+    const [finishedQuize, setFinishedQuize] =useState('false')
 
     useEffect(() => {
         if(finishedQuize === true){
@@ -31,7 +34,7 @@ function TakeQuiz(props) {
 
      
     const finish = ()  => {
-        setFinishedQuize(false)
+        setFinishedQuize('false')
         serRightAnswer(0)
         setWrongAnswer(0)
         setPosition(0)
@@ -44,9 +47,151 @@ function TakeQuiz(props) {
         })
 
     }
+
+    function nextQuestion(){
+        scaleUps()
+        setAnswer('false')
+        if(position + 1 !== cardData.length){
+            setPosition(position + 1)
+        }else{
+            setPosition(position + 1)
+            setFinishedQuize('true')
+        }
+
+    }
+    const scaleUps = () => {
+        Animated.timing(scaleUp, {
+            toValue:1.2,
+            duration:50,
+            useNativeDriver:true
+        }).start(() => scaleDown())
+    }
+
+    const scaleDown = () => {
+        Animated.timing(scaleUp,  {
+            toValue:1.2,
+            duration:50,
+            useNativeDriver:true,
+        }).start()
+    }
+ 
 	return (
 		<View>
-			<Text>{JSON.stringify(data)}</Text>
+			<View style={styles.navBar}>
+                <TouchableOpacity
+                    style={{ marginLeft: 15 }}
+                    onPress={() => navigation.goBack()}
+                >
+                    {/* <AntDesign name="arrowleft" size={40} color="#1D3557" /> */}
+                </TouchableOpacity>
+                <View style={{ marginLeft: 10 }}>
+                    <Text
+                        style={{
+                            fontSize: 24,
+                            fontWeight: 'bold',
+                            color: '#1D3557',
+                        }}
+                    >
+                        Quiz
+                    </Text>
+                    <Animated.Text
+                        style={{
+                            fontFamily: 'Play_400Regular',
+                            color: '#457B9D',
+                            transform: [{ scale: scaleUp }],
+                        }}
+                    >
+                        {position + 1}/{cardData.length}
+                    </Animated.Text>
+                </View>
+            </View>
+
+            <View style={{ padding: 20 }}>
+                <Text style={styles.title}>Take a Guess!</Text>
+                <View style={styles.card}>
+                    <Animated.Text
+                        style={[
+                            styles.question,
+                            { transform: [{ scale: scaleUp }] },
+                        ]}
+                    >
+                        {console.log(cardData[position].question, 'ques')}
+                        {cardData[position].question}
+                    </Animated.Text>
+
+                    {displayAnswer === 'false' ? (
+                        <TouchableOpacity
+                            style={{ marginTop: 170 }}
+                            onPress={() => setAnswer('true')}
+                        >
+                            <Text
+                                style={{
+                                    color: '#FF7A00',
+                                    fontSize: 20,
+                                    fontWeight: 'bold',
+                                }}
+                            >
+                                View Answer
+                            </Text>
+                        </TouchableOpacity>
+                    ) : (
+                        <View style={{ marginTop: 170 }}>
+                            <Text
+                                style={{
+                                    color: '#4895ef',
+                                    fontSize: 20,
+                                    fontWeight: 'bold',
+                                }}
+                            >
+                                {cardData[position].answer}
+                            </Text>
+                        </View>
+                    )}
+
+                    <Text style={styles.myGuessTxt}>My guess was:</Text>
+
+                    <View style={{ display: 'flex', flexDirection: 'row' }}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                nextQuestion();
+                                setWrongAnswer(
+                                    wrogAnswer + 1
+                                );
+                            }}
+                            style={[styles.btn, { backgroundColor: '#FFAEB4' }]}
+                        >
+                            <Text
+                                style={{
+                                    color: '#E63946',
+                                    fontWeight: 'bold',
+                                    fontSize: 20,
+                                }}
+                            >
+                                Incorrect
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                nextQuestion();
+                                serRightAnswer(
+                                    rightAnswer + 1
+                                );
+                            }}
+                            style={[styles.btn, { backgroundColor: '#91DFD6' }]}
+                        >
+                            <Text
+                                style={{
+                                    color: '#2A9D8F',
+                                    fontWeight: 'bold',
+                                    fontSize: 20,
+                                }}
+                            >
+                                Correct
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
 		</View>
 	);
 }
