@@ -147,7 +147,8 @@ const styles = StyleSheet.create({
 			width: 0,
 			height: 3,
 		},
-    height:100
+    height:100,
+	cursor:'pointer'
 	},
 });
 const mapStateToProps = (state) => {

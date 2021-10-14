@@ -24,11 +24,11 @@ function Results(props) {
 				<Text>Correct ANswer</Text>
 			</View>
 			<View>
-				<Text>{numberOfCorrectAnswers}</Text>
+				<Text>{correctAnswer}</Text>
 			</View>
 			<View>
 				<Text>Wrong Answers</Text>
-				{numberOfWrongtAnswers}
+				{wrongAnswers}
 			</View>
 
 			<View>

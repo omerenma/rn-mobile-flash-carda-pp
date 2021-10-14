@@ -49,7 +49,6 @@ const stateData = (state = initialDeckData, action) => {
 			return Object.assign({}, state);
 		case type.ADD_CARD:
 			state[action.deck].cards.push(action.card);
-			console.log(state[action.deck], 'decking')
 			return Object.assign({}, state);
 		case type.REMOVE_CARD:
 			state[action.deck].cards.splice(action.id, 1);
