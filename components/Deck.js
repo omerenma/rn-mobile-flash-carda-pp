@@ -21,7 +21,7 @@ function RecievedDeck(props) {
 	const scaleUp = () => {
 		Animated.timing(scale, {
 			toValue: 1.3,
-			duration: 1000,
+			duration: 50,
 			useNativeDriver: true,
 		}).start(() => scaleDown());
 	};
@@ -29,12 +29,12 @@ function RecievedDeck(props) {
 	const scaleDown = () => {
 		Animated.timing(scale, {
 			toValue: 1,
-			duration: 1000,
+			duration: 50,
 			useNativeDriver: true,
 		}).start(() => clickHandle());
 	};
 	const clickHandle = () => {
-		navigation.navigate(link, { id: props.deck });
+		navigation.navigate(link, { id: props.DeckId });
 	};
 
 	return (
@@ -47,6 +47,7 @@ function RecievedDeck(props) {
 }
 
 function Deck(props) {
+	console.log(props, 'propsinthes')
 	const DeckId = props.route.params.id;
 	localStorage.setItem("id", DeckId);
 	console.log(DeckId, "id");

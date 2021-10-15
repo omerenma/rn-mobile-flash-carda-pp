@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import {
 	ScrollView,
 	FlatList,
@@ -6,98 +6,106 @@ import {
 	Text,
 	StyleSheet,
 	TouchableOpacity,
-	Alert
-	
+	Alert,
 } from "react-native";
-import {useNavigation} from '@react-navigation/native'
+import { useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
-import Animated, { Easing } from "react-native-reanimated";
-import {type} from '../store'
+import { Animated } from "react-native";
+import { type } from "../store";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
+function Dashboard(props) {
+	console.log(props, "propsing");
+	const navigation = useNavigation();
+	const scale = useRef(new Animated.Value(1)).current;
 
-function Dashboard(props){
-	console.log(props, 'propsing')
-	const navigation = useNavigation()
-	const scale = useRef(new Animated.Value(1)).current
-
-	const moveUp = () =>{
+	const moveUp = () => {
 		Animated.timing(scale, {
-			toValue:1.2,
-			duration:50,
-			useNativeDriver:true,
-
-		}).start(() => scaleDown())
-	}
+			toValue: 1.2,
+			duration: 50,
+			useNativeDriver: true,
+		}).start(() => scaleDown());
+	};
 
 	const scaleDown = () => {
 		Animated.timing(scale, {
-			toValue:1.2,
-			duration:50,
-			useNativeDriver:true,
-
-		}).start(() => clickHandle())
-	}
+			toValue: 1.2,
+			duration: 50,
+			useNativeDriver: true,
+		}).start(() => clickHandle());
+	};
 
 	const clickHandle = () => {
-		console.log(navigation, 'navigation props')
-		navigation.navigate('Deck', {id:props.id})
-	}
+		console.log(navigation, "navigation props");
+		navigation.navigate("Deck", { id: props.id });
+	};
 
 	const deleteCard = () => {
-        Alert.alert('Warning', 'do you wish to delete this deck?', [
-            {
-                text: 'yes',
-                onPress: () =>
-                    props.dispatch({
-                        type: type.DELETE_DECK,
-                        id: props.id,
-                    }),
-            },
-            { text: 'no' },
-        ]);
-    };
+		Alert.alert("Warning", "do you wish to delete this deck?", [
+			{
+				text: "yes",
+				onPress: () =>
+					props.dispatch({
+						type: type.DELETE_DECK,
+						id: props.id,
+					}),
+			},
+			{ text: "no" },
+		]);
+	};
 
-	return(
-		<TouchableWithoutFeedback onPress={moveUp}>
-			<Animated.View style={[styles.card, [{scale:scale}]]}>
+	return (
+		<TouchableWithoutFeedback onPress={() =>{moveUp()}}>
+			<Animated.View style={[styles.card, { transform: [{ scale: scale }] }]}>
 				<TouchableOpacity onPress={deleteCard}>
 					<Text>{props.name}</Text>
 					<Text>{props.numberofCards} cards</Text>
-
 				</TouchableOpacity>
-
 			</Animated.View>
 		</TouchableWithoutFeedback>
-	)
+	);
 }
-
-
 
 function Card(props) {
 	console.log(props.decks, "cardss");
-	const {decks} = props
+	const { decks } = props;
+
+	const navigation = useNavigation();
+
+	
+
 	return (
 		<ScrollView>
-			<View style={styles.container}>
-				{Object.keys(decks).map((deck, i) => (
-					<Dashboard 
-					key={i}
-					numberofCards={decks[deck].cards.length}
-					id={decks[deck].id}
-					navigation = {props.navigation}
-					 />
-					// <TouchableOpacity
-					// 	onPress={() => console.log("Pressed!")}
-					// 	key={decks[deck].id}
-					// >
-					// 	<View style={styles.card}>
+			{Object.keys(decks).map((deck, i) => {
+				return (
+					<Dashboard
+						key={i}
+						name={decks[deck].title}
+						numberofCards={decks[deck].cards.length}
+						id={decks[deck].id}
+						navigation={props.navigation}
+					/>
+					// <TouchableWithoutFeedback
+					//  key={i} onPress={() => {moveUp}}
+					//  id={decks[deck].id}
+					//  >
+					// 	<Animated.View
+							
+					// 		style={[styles.card, { transform: [{ scale: scale }] }]}
+					// 	>
 					// 		<Text>{decks[deck].title}</Text>
-					// 		<Text>Card(s): {decks[deck].cards.length}</Text>
-					// 	</View>
-					// </TouchableOpacity>
-				))}
-			</View>
+					// 		<Text>{decks[deck].cards.length}</Text>
+					// 	</Animated.View>
+					// </TouchableWithoutFeedback>
+					// <Dashboard
+					// 	key={i}
+					// 	// name={decks[deck].cards.title}
+					// 	numberofCards={decks[deck].cards.length}
+					// 	id={decks[deck].id}
+					// 	navigation={props.navigation}
+					// />
+				);
+			})}
 		</ScrollView>
 	);
 }
